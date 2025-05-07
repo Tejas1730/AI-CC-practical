@@ -87,3 +87,8 @@ sudo nano /var/www/html/index.html
 Keep your key file safe.
 
 Disable root login or change default ports for production.
+
+
+sudo chmod 755 /var/www/html
+
+sudo chmod 644 /var/www/html/index.html
