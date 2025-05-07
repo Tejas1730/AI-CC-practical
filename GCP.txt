@@ -1,0 +1,99 @@
+🚀 Steps to Deploy a Static HTML Page on GCP VM (Compute Engine)
+✅ 1. Create a GCP Project
+Go to Google Cloud Console.
+
+Create a new project or select an existing one.
+
+✅ 2. Enable Compute Engine
+Navigate to Compute Engine > VM instances.
+
+Click "Enable" if prompted to enable the API.
+
+✅ 3. Create a VM Instance
+Click "Create Instance".
+
+Configure:
+
+Name: e.g., my-html-vm
+
+Region/Zone: Choose nearest location
+
+Machine type: e2-micro (Free Tier eligible)
+
+Boot disk:
+
+OS: Choose Debian, Ubuntu, or CentOS
+
+Firewall: Check both
+
+✅ Allow HTTP traffic
+
+✅ Allow HTTPS traffic
+
+Click "Create".
+
+✅ 4. Connect via SSH
+After VM is ready, click SSH from the VM instance list.
+
+A browser-based terminal opens.
+
+✅ 5. Install a Web Server (Apache)
+For Debian/Ubuntu:
+
+bash
+Copy
+Edit
+sudo apt update
+sudo apt install apache2 -y
+sudo systemctl start apache2
+sudo systemctl enable apache2
+For CentOS/RHEL:
+
+bash
+Copy
+Edit
+sudo yum install httpd -y
+sudo systemctl start httpd
+sudo systemctl enable httpd
+✅ 6. Upload Your HTML Page
+Option 1 – Direct editing inside VM:
+
+bash
+Copy
+Edit
+sudo nano /var/www/html/index.html
+Paste your HTML code, save with Ctrl + O, exit with Ctrl + X.
+
+Option 2 – Upload from local (via gcloud CLI):
+If you have gcloud CLI installed:
+
+bash
+Copy
+Edit
+gcloud compute scp index.html <instance-name>:~/ --zone=<zone>
+gcloud compute ssh <instance-name> --zone=<zone>
+sudo mv ~/index.html /var/www/html/index.html
+✅ 7. View Your Website
+Go to:
+
+cpp
+Copy
+Edit
+http://<EXTERNAL_IP>
+Get the IP from the VM list in GCP console.
+
+✅ Optional: Firewall Check
+If HTTP isn’t working:
+
+Go to VPC Network > Firewall Rules.
+
+Add a rule:
+
+Name: allow-http
+
+Target: All instances in the network
+
+Protocols/ports: tcp:80
+
+Source: 0.0.0.0/0
+

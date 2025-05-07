@@ -1,0 +1,89 @@
+🚀 Steps to Deploy a Simple HTML Page on AWS EC2
+✅ 1. Launch an EC2 Instance
+Go to the AWS EC2 Console.
+
+Click "Launch Instance".
+
+Set these options:
+
+Name: e.g., MyHTMLServer
+
+AMI: Select Amazon Linux 2 AMI (or Ubuntu if you prefer).
+
+Instance Type: t2.micro (Free Tier eligible).
+
+Key Pair: Select or create a key pair (used for SSH access).
+
+Network Settings:
+
+Allow HTTP (port 80) and SSH (port 22) in the security group.
+
+Click Launch Instance.
+
+✅ 2. Connect to the EC2 Instance
+After the instance is running:
+
+Click "Connect" in the EC2 dashboard.
+
+Use the SSH command shown (example for Linux/Mac):
+
+bash
+Copy
+Edit
+ssh -i your-key.pem ec2-user@your-ec2-public-ip
+(Use ubuntu@... if using Ubuntu AMI)
+
+✅ 3. Install and Start a Web Server
+For Amazon Linux 2:
+
+bash
+Copy
+Edit
+sudo yum update -y
+sudo yum install httpd -y     # Install Apache
+sudo systemctl start httpd    # Start Apache server
+sudo systemctl enable httpd   # Start on boot
+For Ubuntu:
+
+bash
+Copy
+Edit
+sudo apt update
+sudo apt install apache2 -y
+sudo systemctl start apache2
+sudo systemctl enable apache2
+✅ 4. Upload Your HTML File
+Use scp to copy your HTML file from local to EC2:
+
+bash
+Copy
+Edit
+scp -i your-key.pem index.html ec2-user@your-ec2-public-ip:/tmp
+Move your file to the web root:
+
+bash
+Copy
+Edit
+sudo mv /tmp/index.html /var/www/html/index.html
+(For Ubuntu, use /var/www/html/ as well)
+
+✅ 5. Access the Page
+Open your browser and go to:
+
+cpp
+Copy
+Edit
+http://<your-ec2-public-ip>
+🎉 You should see your HTML page!
+
+✅ Optional: Make Changes
+Edit the HTML page directly using a text editor:
+
+bash
+Copy
+Edit
+sudo nano /var/www/html/index.html
+🛑 Security Tip
+Keep your key file safe.
+
+Disable root login or change default ports for production.
